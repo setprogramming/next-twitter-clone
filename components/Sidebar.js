@@ -2,8 +2,11 @@ import Image from "next/image"
 import SidebarMenuItem from "./SidebarMenuItem"
 import {DotsHorizontalIcon, HomeIcon} from "@heroicons/react/solid"
 import {HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, ClipboardIcon, UserIcon, DotsCircleHorizontalIcon} from "@heroicons/react/outline"
+import {useSession, signIn, signOut} from "next-auth/react"
 
 export default function Sidebar() {
+    const {data: session} = useSession()
+
   return (
     <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full xl:ml-24">
         {/* Twitter Logo */}
@@ -19,29 +22,49 @@ export default function Sidebar() {
         <div className="mt-4 mb-3 xl:items-start">
             <SidebarMenuItem text="Home" Icon={HomeIcon} active />
             <SidebarMenuItem text="Explore" Icon={HashtagIcon} />
-            <SidebarMenuItem text="Notifications" Icon={BellIcon} />
-            <SidebarMenuItem text="Messages" Icon={InboxIcon} />
-            <SidebarMenuItem text="Bookmarks" Icon={BookmarkIcon} />
-            <SidebarMenuItem text="Lists" Icon={ClipboardIcon} />
-            <SidebarMenuItem text="Profile" Icon={UserIcon} />
-            <SidebarMenuItem text="More" Icon={DotsCircleHorizontalIcon} />
+
+            {session && (
+                <>
+                    <SidebarMenuItem text="Notifications" Icon={BellIcon} />
+                    <SidebarMenuItem text="Messages" Icon={InboxIcon} />
+                    <SidebarMenuItem text="Bookmarks" Icon={BookmarkIcon} />
+                    <SidebarMenuItem text="Lists" Icon={ClipboardIcon} />
+                    <SidebarMenuItem text="Profile" Icon={UserIcon} />
+                    <SidebarMenuItem text="More" Icon={DotsCircleHorizontalIcon} />
+                </>
+            )}
+            
         </div>
 
         {/* Button */}
-        <button className="bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:bg-blue-500 
-        text-lg hidden xl:inline">
-            Tweet
-        </button>
+        {session ? (
+            <>
+                <button className="bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:bg-blue-500 
+                text-lg hidden xl:inline">
+                    Tweet
+                </button>
 
-        {/* Mini Profile */}
-        <div className="hoverEffect text-gray-700 flex items-center justify-center xl:justify-start mt-auto">
-            <img src="/images/profile.jpg" alt="proile-picture" className="h-10 w-10 rounded-full xl:mr-2" />
-            <div className="leading-5 hidden xl:inline">
-                <h4 className="font-bold">John Wilson</h4>
-                <p className="text-gray-500">@fender9999</p>
-            </div>
-            <DotsHorizontalIcon className="h-5 xl:ml-8 hidden xl:inline" />
-        </div>
+                {/* Mini Profile */}
+                <div className="hoverEffect text-gray-700 flex items-center justify-center xl:justify-start mt-auto">
+                    <img src={session.user.image} alt="profile-picture" 
+                        className="h-10 w-10 rounded-full xl:mr-2"
+                        onClick={signOut} 
+                    />
+                    <div className="leading-5 hidden xl:inline">
+                        <h4 className="font-bold">{session.user.name}</h4>
+                        <p className="text-gray-500">@{session.user.username}</p>
+                    </div>
+                    <DotsHorizontalIcon className="h-5 xl:ml-8 hidden xl:inline" />
+                </div>
+            </>
+            
+        ) : (
+            <button className="bg-blue-400 text-white rounded-full w-36 h-12 font-bold shadow-md hover:bg-blue-500 
+                text-lg hidden xl:inline" onClick={signIn}>
+                Sign in
+            </button>
+        ) }
+        
     </div>
   )
 }

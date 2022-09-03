@@ -3,11 +3,11 @@ import {getProviders, signIn} from "next-auth/react"
 export default function signin({providers}) {
   return (
     <div className="flex justify-center mt-20 space-x-4">
-        <img className="hidden md:inline-flex object-cover md:w-44" src="/images/twitter-phone.png" alt="twitter-phone" />
+        <img className="hidden md:inline-flex object-cover md:w-60" src="/images/twitter_phone.png" alt="twitter-phone" />
         <div className="">
             {Object.values(providers).map((provider) => (
                 <div className="flex flex-col items-center">
-                    <img src="https://help.twitter.com/content/dam/help-twitter/brand/logo.png" 
+                    <img src="/images/twitter-logo.png" 
                         alt="twitter-logo"
                         className="w-40 object-cover"
                      />
