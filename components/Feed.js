@@ -1,28 +1,42 @@
 import { SparklesIcon } from "@heroicons/react/outline"
 import Input from "./Input"
 import Post from "./Post"
+import { useEffect, useState } from "react"
+import { onSnapshot, query, collection, orderBy} from "firebase/firestore"
+import { db} from "../firebase"
 
 export default function Feed() {
-  const posts = [
-    {
-        id: "1",
-        name: "Jake Rodham",
-        username: "jakejakkal",
-        userImg: "/images/jake.jpg",
-        img: "/images/metallica.jpg",
-        text: "Acting like a maniac - Whiplash!",
-        timestamp: "2 hours ago"
-    },
-    {
-        id: "2",
-        name: "Liz Waterston",
-        username: "sweetliz",
-        userImg: "/images/liz.jpg",
-        img: "/images/vice.jpg",
-        text: "Really? Hmmm, I was never expecting it!",
-        timestamp: "4 hours ago"
-    }
-  ] 
+  const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+      return (
+        onSnapshot(
+          query(collection(db, "posts"), orderBy("timestamp", "desc")),
+          (snapshot) => {setPosts(snapshot.docs)})
+      )
+    }, [])
+
+
+  // const posts = [
+  //   {
+  //       id: "1",
+  //       name: "Jake Rodham",
+  //       username: "jakejakkal",
+  //       userImg: "/images/jake.jpg",
+  //       img: "/images/metallica.jpg",
+  //       text: "Acting like a maniac - Whiplash!",
+  //       timestamp: "2 hours ago"
+  //   },
+  //   {
+  //       id: "2",
+  //       name: "Liz Waterston",
+  //       username: "sweetliz",
+  //       userImg: "/images/liz.jpg",
+  //       img: "/images/vice.jpg",
+  //       text: "Really? Hmmm, I was never expecting it!",
+  //       timestamp: "4 hours ago"
+  //   }
+  // ] 
 
   return (
     <div className="xl:ml-[370px] border-l border-r border-gray-200 xl:min-w-[576px] sm:ml-[73px] flex-grow max-w-xl">
