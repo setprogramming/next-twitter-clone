@@ -8,13 +8,12 @@ import { db} from "../firebase"
 export default function Feed() {
   const [posts, setPosts] = useState([])
 
-    useEffect(() => {
-      return (
-        onSnapshot(
+    useEffect(() => onSnapshot(
           query(collection(db, "posts"), orderBy("timestamp", "desc")),
-          (snapshot) => {setPosts(snapshot.docs)})
-      )
-    }, [])
+          (snapshot) => {
+            setPosts(snapshot.docs)
+          }
+        ), [])
 
 
   // const posts = [
