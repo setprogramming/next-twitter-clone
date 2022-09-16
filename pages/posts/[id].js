@@ -59,7 +59,12 @@ export default function PostPage({newsResults, randomUsersResults}) {
             {comments.length > 0 && (
               <div className="">
                 {comments.map((comment) => (
-                  <Comment key={comment.id} id={comment.id} comment={comment.data()} />
+                  <Comment 
+                    key={comment.id} 
+                    commentId={comment.id} 
+                    originalPostId={id}
+                    comment={comment.data()} 
+                  />
                 ))}
               </div>              
             )}  

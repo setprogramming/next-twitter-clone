@@ -85,12 +85,14 @@ export default function Post({post, id}) {
             </div>
 
             {/* Post text */}
-            <p className="text-gray-800 text-[15px] sm:text-[16px] mb-3">
+            <p onClick={() => router.push(`/posts/${id}`)}
+                className="text-gray-800 text-[15px] sm:text-[16px] mb-3">
                 {post?.data()?.text}
             </p>
 
             {/* Post image */}
-            <img src={post?.data()?.image} className="rounded-2xl mr-2" />
+            <img src={post?.data()?.image} onClick={() => router.push(`/posts/${id}`)} 
+                className="rounded-2xl mr-2" />
 
             {/* Icons */}
             <div className="flex items-center justify-between text-gray-500 p-2">
