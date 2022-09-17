@@ -6,7 +6,7 @@ export default function signin({providers}) {
         <img className="hidden md:inline-flex object-cover md:w-60" src="/images/twitter_phone.png" alt="twitter-phone" />
         <div className="">
             {Object.values(providers).map((provider) => (
-                <div className="flex flex-col items-center">
+                <div key={provider.name} className="flex flex-col items-center">
                     <img src="/images/twitter-logo.png" 
                         alt="twitter-logo"
                         className="w-40 object-cover"
